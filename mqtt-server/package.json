@@ -1,0 +1,17 @@
+{
+  "name": "node mqtt",
+  "description": "",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.1",
+    "express": "4.12.x",
+    "mongoose": "*",
+    "mosca": "^2.0.2",
+    "mqtt": "^1.13.0"
+  }
+}
