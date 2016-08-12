@@ -35,17 +35,24 @@ io.sockets.on('connection', function (socket) {
 
         console.log('Publishing to '+data.topic);
         client.publish(data.topic,  JSON.stringify(data));
+        client.publish('tracklog',  JSON.stringify(data));
 
     });
 });
  
 // listen to messages coming from the mqtt broker
-client.on('message', function (topic, data, packet) {
+client.on('message', function (topic, message, packet) {
     
-    console.log('data', topic, data, packet);
+    var json = message.toString();
+    if(json == 'Hello world!')
+        console.log('hh');
+    else
+        json =  JSON.parse(message);
 
-    io.sockets.emit('mqtt',{'topic':String(data.topic),
-                            'message':String(data.message),
-                            'username' : String(data.username)
+    console.log('data', json);
+
+    io.sockets.emit('mqtt',{'topic':String(json.topic),
+                            'content':String(json.content),
+                            'username' : String(json.username)
                         });
 });

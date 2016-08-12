@@ -1,3 +1,7 @@
+/*
+    author : daotrancong@vccorp.vn
+*/
+
 (function() {
   'use strict';
 
@@ -5,22 +9,22 @@
 
   angular.module('app').controller('Shell', Shell);
 
-  function Shell() {
+  function Shell($scope) {
 
     var vm = this;
 
     vm.messages = [
       {
-        'username': 'Matt',
+        'username': 'User',
         'content': 'Hi!'
       },
       {
-        'username': 'Elisa',
+        'username': 'Boss',
         'content': 'Whats up?'
       }
     ];
 
-    vm.username = 'Matt';
+    vm.username = 'Boss';
 
     vm.sendMessage = function(message, username) {
       if(message && message !== '' && username) {
@@ -30,7 +34,6 @@
           'content': message
         };
 
-        vm.messages.push(data);
         socket.emit('publish', {topic : 'chat', content : message, username : username});
       }
     };
@@ -39,6 +42,8 @@
       socket.on('connect', function () {
         socket.on('mqtt', function (msg) {
           if(msg.topic == 'chat') {
+            vm.messages.push(msg);
+            $scope.$apply();
           }
         });
         socket.emit('subscribe',{topic:'chat'});
